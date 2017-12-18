@@ -6,6 +6,13 @@ httpbin like for gRPC
 * endpoint (insecure): http://grpcbin.m.42.am:9000
 * [grpcbin.proto](https://github.com/moul/grpcbin/blob/master/grpcbin/grpcbin.proto)
 
+## Run server locally
+
+```console
+$ docker run -it --rm -p 9000:9000 moul/grpcbin
+2017/12/18 14:48:01 listening on :9000
+```
+
 ## Example
 
 Example with [grpcc](https://github.com/njpatel/grpcc):
