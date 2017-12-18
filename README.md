@@ -1,6 +1,12 @@
 # grpcbin
 httpbin like for gRPC
 
+[![CircleCI](https://circleci.com/gh/moul/grpcbin.svg?style=svg)](https://circleci.com/gh/moul/grpcbin)
+[![Docker Build Status](https://img.shields.io/docker/build/moul/grpcbin.svg)](https://hub.docker.com/r/moul/grpcbin/)
+[![Go Report Card](https://goreportcard.com/badge/github.com/moul/grpcbin)](https://goreportcard.com/report/github.com/moul/grpcbin)
+[![GoDoc](https://godoc.org/github.com/moul/grpcbin?status.svg)](https://godoc.org/github.com/moul/grpcbin)
+[![License](https://img.shields.io/github/license/moul/grpcbin.svg)](https://github.com/moul/grpcbin/blob/master/LICENSE)
+
 ## Demo server
 
 * endpoint (insecure): http://grpcbin.m.42.am:9000
