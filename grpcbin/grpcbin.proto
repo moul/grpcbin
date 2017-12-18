@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package grpcbin;
+
+service GRPCBin {
+  rpc Index(IndexRequest) returns (IndexReply) {}
+}
+
+message IndexRequest {}
+message IndexReply {
+  message Endpoint {
+    string path = 1;
+    string description = 2;
+  }
+  string description = 1;
+  repeated Endpoint endpoints = 2;
+}
