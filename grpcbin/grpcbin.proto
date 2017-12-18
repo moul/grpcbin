@@ -12,6 +12,7 @@ service GRPCBin {
   rpc SpecificError(SpecificErrorRequest) returns (EmptyMessage) {}
   rpc RandomError(EmptyMessage) returns (EmptyMessage) {}
   rpc HeadersUnary(EmptyMessage) returns (HeadersMessage) {}
+  rpc NoResponseUnary(EmptyMessage) returns (EmptyMessage) {}
 }
 
 message HeadersMessage {

@@ -35,6 +35,7 @@ func (s *server) Index(ctx context.Context, in *pb.EmptyMessage) (*pb.IndexReply
 			{Path: "dummyServerStream", Description: "Stream endpoint that sends back 10 times the received DummyMessage."},
 			{Path: "dummyBidirectionalStream", Description: "Stream endpoint that sends back a received DummyMessage indefinitely (chat mode)."},
 			{Path: "headers", Description: "Unary endpoint that returns headers."},
+			{Path: "noResponseUnary", Description: "Unary endpoint that returns no respnose."},
 		},
 	}, nil
 }
@@ -51,6 +52,10 @@ func (s *server) HeadersUnary(ctx context.Context, in *pb.EmptyMessage) (*pb.Hea
 		resp.Metadata[key] = &pb.HeadersMessage_Values{Values: values}
 	}
 	return &resp, nil
+}
+
+func (s *server) NoResponseUnary(ctx context.Context, in *pb.EmptyMessage) (*pb.EmptyMessage, error) {
+	return nil, nil
 }
 
 func (s *server) Empty(ctx context.Context, in *pb.EmptyMessage) (*pb.EmptyMessage, error) {
