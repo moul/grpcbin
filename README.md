@@ -10,13 +10,15 @@ httpbin like for gRPC
 ## Demo server
 
 * endpoint (insecure): http://grpcb.in:9000
+* endpoint (secure): http://grpcb.in:9001
 * [grpcbin.proto](https://github.com/moul/grpcbin/blob/master/grpcbin/grpcbin.proto)
 
 ## Run server locally
 
 ```console
-$ docker run -it --rm -p 9000:9000 moul/grpcbin
-2017/12/18 14:48:01 listening on :9000
+$ docker run -it --rm -p 9000:9000 -p 9001:9001 moul/grpcbin
+2017/12/18 14:48:01 listening on :9000 (insecure)
+2017/12/18 14:48:01 listening on :9001 (secure)
 ```
 
 ## Example
