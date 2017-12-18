@@ -1,5 +1,3 @@
-//go:generate protoc -I ./grpcbin --go_out=plugins=grpc:./grpcbin ./grpcbin/grpcbin.proto
-
 package main
 
 import (
@@ -41,7 +39,7 @@ func (s *server) Index(ctx context.Context, in *pb.EmptyMessage) (*pb.IndexReply
 }
 
 func (s *server) HeadersUnary(ctx context.Context, in *pb.EmptyMessage) (*pb.HeadersMessage, error) {
-	md, ok := metadata.FromContext(ctx)
+	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
 		return nil, status.Error(codes.InvalidArgument, "cannot parse metadata from incoming context")
 	}
