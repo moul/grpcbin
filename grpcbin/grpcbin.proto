@@ -9,6 +9,13 @@ service GRPCBin {
   rpc DummyServerStream(DummyMessage) returns (stream DummyMessage) {}
   rpc DummyClientStream(stream DummyMessage) returns (DummyMessage) {}
   rpc DummyBidirectionalStreamStream(stream DummyMessage) returns (stream DummyMessage) {}
+  rpc SpecificError(SpecificErrorRequest) returns (EmptyMessage) {}
+  rpc RandomError(EmptyMessage) returns (EmptyMessage) {}
+}
+
+message SpecificErrorRequest {
+  uint32 code = 1;
+  string reason = 2;
 }
 
 message EmptyMessage {}

@@ -5,12 +5,15 @@ package main
 import (
 	"io"
 	"log"
+	"math/rand"
 	"net"
 	"time"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/grpc/status"
 
 	pb "github.com/moul/grpcbin/grpcbin"
 )
@@ -24,6 +27,8 @@ func (s *server) Index(ctx context.Context, in *pb.EmptyMessage) (*pb.IndexReply
 		Endpoints: []*pb.IndexReply_Endpoint{
 			{Path: "index", Description: "This endpoint."},
 			{Path: "empty", Description: "Unary endpoint that takes no argument and replies an empty message."},
+			{Path: "randomError", Description: "Unary endpoint that raises a random gRPC error."},
+			{Path: "specificError", Description: "Unary endpoint that raises a specified (by code) gRPC error."},
 			{Path: "dummyUnary", Description: "Unary endpoint that replies a received DummyMessage."},
 			{Path: "dummyClientStream", Description: "Stream endpoint that receives 10 DummyMessages and replies with the last received one."},
 			{Path: "dummyServerStream", Description: "Stream endpoint that sends back 10 times the received DummyMessage."},
@@ -38,6 +43,20 @@ func (s *server) Empty(ctx context.Context, in *pb.EmptyMessage) (*pb.EmptyMessa
 
 func (s *server) DummyUnary(ctx context.Context, in *pb.DummyMessage) (*pb.DummyMessage, error) {
 	return in, nil
+}
+
+func (s *server) RandomError(ctx context.Context, in *pb.EmptyMessage) (*pb.EmptyMessage, error) {
+	c := codes.Code(uint32(rand.Intn(16)))
+	return &pb.EmptyMessage{}, status.Error(c, c.String())
+}
+
+func (s *server) SpecificError(ctx context.Context, in *pb.SpecificErrorRequest) (*pb.EmptyMessage, error) {
+	c := codes.Code(in.Code)
+	msg := c.String()
+	if in.Reason != "" {
+		msg = in.Reason
+	}
+	return &pb.EmptyMessage{}, status.Error(c, msg)
 }
 
 func (s *server) DummyBidirectionalStreamStream(stream pb.GRPCBin_DummyBidirectionalStreamStreamServer) error {
