@@ -3,15 +3,25 @@ syntax = "proto3";
 package grpcbin;
 
 service GRPCBin {
+  // This endpoint
   rpc Index(EmptyMessage) returns (IndexReply) {}
+  // Unary endpoint that takes no argument and replies an empty message.
   rpc Empty(EmptyMessage) returns (EmptyMessage) {}
+  // Unary endpoint that replies a received DummyMessage
   rpc DummyUnary(DummyMessage) returns (DummyMessage) {}
+  // Stream endpoint that sends back 10 times the received DummyMessage
   rpc DummyServerStream(DummyMessage) returns (stream DummyMessage) {}
+  // Stream endpoint that receives 10 DummyMessages and replies with the last received one
   rpc DummyClientStream(stream DummyMessage) returns (DummyMessage) {}
+  // Stream endpoint that sends back a received DummyMessage indefinitely (chat mode)
   rpc DummyBidirectionalStreamStream(stream DummyMessage) returns (stream DummyMessage) {}
+  // Unary endpoint that raises a specified (by code) gRPC error
   rpc SpecificError(SpecificErrorRequest) returns (EmptyMessage) {}
+  // Unary endpoint that raises a random gRPC error
   rpc RandomError(EmptyMessage) returns (EmptyMessage) {}
+  // Unary endpoint that returns headers
   rpc HeadersUnary(EmptyMessage) returns (HeadersMessage) {}
+  // Unary endpoint that returns no respnose
   rpc NoResponseUnary(EmptyMessage) returns (EmptyMessage) {}
 }
 

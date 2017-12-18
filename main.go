@@ -20,22 +20,17 @@ import (
 type server struct{}
 
 func (s *server) Index(ctx context.Context, in *pb.EmptyMessage) (*pb.IndexReply, error) {
-	return &pb.IndexReply{
-
+	reply := pb.IndexReply{
 		Description: "gRPC testing server",
-		Endpoints: []*pb.IndexReply_Endpoint{
-			{Path: "index", Description: "This endpoint."},
-			{Path: "empty", Description: "Unary endpoint that takes no argument and replies an empty message."},
-			{Path: "randomError", Description: "Unary endpoint that raises a random gRPC error."},
-			{Path: "specificError", Description: "Unary endpoint that raises a specified (by code) gRPC error."},
-			{Path: "dummyUnary", Description: "Unary endpoint that replies a received DummyMessage."},
-			{Path: "dummyClientStream", Description: "Stream endpoint that receives 10 DummyMessages and replies with the last received one."},
-			{Path: "dummyServerStream", Description: "Stream endpoint that sends back 10 times the received DummyMessage."},
-			{Path: "dummyBidirectionalStream", Description: "Stream endpoint that sends back a received DummyMessage indefinitely (chat mode)."},
-			{Path: "headers", Description: "Unary endpoint that returns headers."},
-			{Path: "noResponseUnary", Description: "Unary endpoint that returns no respnose."},
-		},
-	}, nil
+		Endpoints:   []*pb.IndexReply_Endpoint{},
+	}
+	for _, method := range pb.GRPCBin_serviceDesc.Methods {
+		reply.Endpoints = append(reply.Endpoints, &pb.IndexReply_Endpoint{
+			Path: method.MethodName,
+			// Description: FIXME get from comments
+		})
+	}
+	return &reply, nil
 }
 
 func (s *server) HeadersUnary(ctx context.Context, in *pb.EmptyMessage) (*pb.HeadersMessage, error) {
