@@ -57,6 +57,13 @@
 			"revisionTime": "2017-04-19T06:35:19Z"
 		},
 		{
+			"checksumSHA1": "7nxptCb17VaAoo5cHw/i1IHy6jc=",
+			"path": "github.com/grpc-ecosystem/grpc-gateway/third_party",
+			"revision": "8db8c1ac6f97d8ee1b7a0d7198c39f687e19a937",
+			"revisionTime": "2017-12-08T02:50:44Z",
+			"tree": true
+		},
+		{
 			"checksumSHA1": "vqiK5r5dntV7JNZ+ZsGlD0Samos=",
 			"path": "github.com/grpc-ecosystem/grpc-gateway/utilities",
 			"revision": "55d0969c04b9ffa54e367e3fb8e32cdd05083b61",
