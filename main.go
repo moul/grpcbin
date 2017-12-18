@@ -12,6 +12,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/grpc/status"
 
@@ -33,8 +34,23 @@ func (s *server) Index(ctx context.Context, in *pb.EmptyMessage) (*pb.IndexReply
 			{Path: "dummyClientStream", Description: "Stream endpoint that receives 10 DummyMessages and replies with the last received one."},
 			{Path: "dummyServerStream", Description: "Stream endpoint that sends back 10 times the received DummyMessage."},
 			{Path: "dummyBidirectionalStream", Description: "Stream endpoint that sends back a received DummyMessage indefinitely (chat mode)."},
+			{Path: "headers", Description: "Unary endpoint that returns headers."},
 		},
 	}, nil
+}
+
+func (s *server) HeadersUnary(ctx context.Context, in *pb.EmptyMessage) (*pb.HeadersMessage, error) {
+	md, ok := metadata.FromContext(ctx)
+	if !ok {
+		return nil, status.Error(codes.InvalidArgument, "cannot parse metadata from incoming context")
+	}
+	resp := pb.HeadersMessage{
+		Metadata: map[string]*pb.HeadersMessage_Values{},
+	}
+	for key, values := range md {
+		resp.Metadata[key] = &pb.HeadersMessage_Values{Values: values}
+	}
+	return &resp, nil
 }
 
 func (s *server) Empty(ctx context.Context, in *pb.EmptyMessage) (*pb.EmptyMessage, error) {

@@ -11,6 +11,14 @@ service GRPCBin {
   rpc DummyBidirectionalStreamStream(stream DummyMessage) returns (stream DummyMessage) {}
   rpc SpecificError(SpecificErrorRequest) returns (EmptyMessage) {}
   rpc RandomError(EmptyMessage) returns (EmptyMessage) {}
+  rpc HeadersUnary(EmptyMessage) returns (HeadersMessage) {}
+}
+
+message HeadersMessage {
+  message Values {
+    repeated string values = 1;
+  }
+  map<string, Values> Metadata = 1;
 }
 
 message SpecificErrorRequest {
