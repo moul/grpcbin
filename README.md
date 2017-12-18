@@ -9,7 +9,7 @@ httpbin like for gRPC
 
 ## Demo server
 
-* endpoint (insecure): http://grpcbin.m.42.am:9000
+* endpoint (insecure): http://grpcb.in:9000
 * [grpcbin.proto](https://github.com/moul/grpcbin/blob/master/grpcbin/grpcbin.proto)
 
 ## Run server locally
@@ -29,8 +29,8 @@ $ wget -qN https://github.com/moul/grpcbin/raw/master/grpcbin/grpcbin.proto
 $ npm install -g grpcc
 
 # interactive client
-$ grpcc -i -p ./grpcbin.proto --address grpcbin.m.42.am:9000
-Connecting to grpcbin.GRPCBin on grpcbin.m.42.am:9000. Available globals:
+$ grpcc -i -p ./grpcbin.proto --address grpcb.in:9000
+Connecting to grpcbin.GRPCBin on grpcb.in:9000. Available globals:
 
   client - the client connection to GRPCBin
     index (EmptyMessage, callback) returns IndexReply
@@ -43,10 +43,10 @@ Connecting to grpcbin.GRPCBin on grpcbin.m.42.am:9000. Available globals:
   streamReply - function to easily print stream call replies (alias: sr)
   createMetadata - convert JS objects into grpc metadata instances (alias: cm)
 
-GRPCBin@grpcbin.m.42.am:9000> ^C
+GRPCBin@grpcb.in:9000> ^C
 
 # call index endpoint
-$ grpcc -i -p ./grpcbin.proto --address grpcbin.m.42.am:9000 --eval 'client.index({}, printReply)'
+$ grpcc -i -p ./grpcbin.proto --address grpcb.in:9000 --eval 'client.index({}, printReply)'
 {
   "description": "gRPC testing server",
   "endpoints": [
@@ -63,7 +63,7 @@ $ grpcc -i -p ./grpcbin.proto --address grpcbin.m.42.am:9000 --eval 'client.inde
 }
 
 # call dummyUnary with arguments
-$ grpcc -i -p ./grpcbin.proto --address grpcbin.m.42.am:9000 --eval 'client.dummyUnary({f_string:"hello",f_int32:42}, printReply)'
+$ grpcc -i -p ./grpcbin.proto --address grpcb.in:9000 --eval 'client.dummyUnary({f_string:"hello",f_int32:42}, printReply)'
 {
   "f_string": "hello",
   "f_strings": [],
@@ -86,6 +86,3 @@ $ grpcc -i -p ./grpcbin.proto --address grpcbin.m.42.am:9000 --eval 'client.dumm
   "f_floats": []
 }
 ```
-
-
-
