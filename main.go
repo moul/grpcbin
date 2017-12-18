@@ -23,12 +23,17 @@ func (s *server) Index(ctx context.Context, in *pb.EmptyMessage) (*pb.IndexReply
 		Description: "gRPC testing server",
 		Endpoints: []*pb.IndexReply_Endpoint{
 			{Path: "index", Description: "This endpoint."},
+			{Path: "empty", Description: "Unary endpoint that takes no argument and replies an empty message."},
 			{Path: "dummyUnary", Description: "Unary endpoint that replies a received DummyMessage."},
 			{Path: "dummyClientStream", Description: "Stream endpoint that receives 10 DummyMessages and replies with the last received one."},
 			{Path: "dummyServerStream", Description: "Stream endpoint that sends back 10 times the received DummyMessage."},
 			{Path: "dummyBidirectionalStream", Description: "Stream endpoint that sends back a received DummyMessage indefinitely (chat mode)."},
 		},
 	}, nil
+}
+
+func (s *server) Empty(ctx context.Context, in *pb.EmptyMessage) (*pb.EmptyMessage, error) {
+	return &pb.EmptyMessage{}, nil
 }
 
 func (s *server) DummyUnary(ctx context.Context, in *pb.DummyMessage) (*pb.DummyMessage, error) {

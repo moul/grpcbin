@@ -4,6 +4,7 @@ package grpcbin;
 
 service GRPCBin {
   rpc Index(EmptyMessage) returns (IndexReply) {}
+  rpc Empty(EmptyMessage) returns (EmptyMessage) {}
   rpc DummyUnary(DummyMessage) returns (DummyMessage) {}
   rpc DummyServerStream(DummyMessage) returns (stream DummyMessage) {}
   rpc DummyClientStream(stream DummyMessage) returns (DummyMessage) {}
