@@ -67,7 +67,9 @@ func (s *server) DummyBidirectionalStreamStream(stream pb.GRPCBin_DummyBidirecti
 		} else if err != nil {
 			return err
 		}
-		stream.Send(req)
+		if err := stream.Send(req); err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -83,8 +85,7 @@ func (s *server) DummyClientStream(stream pb.GRPCBin_DummyClientStreamServer) er
 			return err
 		}
 	}
-	stream.SendAndClose(req)
-	return err
+	return stream.SendAndClose(req)
 }
 
 func (s *server) DummyServerStream(in *pb.DummyMessage, stream pb.GRPCBin_DummyServerStreamServer) error {
