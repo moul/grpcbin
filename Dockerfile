@@ -7,4 +7,5 @@ RUN             go build -o /go/bin/grpcbin -ldflags "-extldflags \"-static\"" -
 # minimal runtime
 FROM            alpine
 COPY            --from=builder /go/bin/grpcbin /bin/grpcbin
+EXPOSE          9000
 ENTRYPOINT      ["/bin/grpcbin"]

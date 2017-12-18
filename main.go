@@ -74,7 +74,7 @@ func (s *server) DummyServerStream(in *pb.DummyMessage, stream pb.GRPCBin_DummyS
 }
 
 func main() {
-	listener, err := net.Listen("tcp", ":8000")
+	listener, err := net.Listen("tcp", ":9000")
 	if err != nil {
 		log.Fatalf("failted to listen: %v", err)
 	}
@@ -82,7 +82,7 @@ func main() {
 	pb.RegisterGRPCBinServer(s, &server{})
 	// register reflection service on gRPC server
 	reflection.Register(s)
-	log.Println("listening on :8000")
+	log.Println("listening on :9000")
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
