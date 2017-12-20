@@ -11,7 +11,7 @@ httpbin like for gRPC
 
 * endpoint (insecure): http://grpcb.in:9000
 * endpoint (secure): http://grpcb.in:9001
-* [grpcbin.proto](https://github.com/moul/grpcbin/blob/master/grpcbin/grpcbin.proto)
+* [grpcbin.proto](https://github.com/moul/pb/blob/master/grpcbin/grpcbin.proto)
 * [examples](https://github.com/moul/grpcbin-example)
 
 ## Run server locally
