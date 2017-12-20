@@ -10,7 +10,7 @@ import (
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 
-	pb "github.com/moul/grpcbin/grpcbin"
+	pb "github.com/moul/pb/grpcbin/go-grpc"
 )
 
 type Handlers struct{}

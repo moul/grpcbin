@@ -12,7 +12,8 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 
-	pb "github.com/moul/grpcbin/grpcbin"
+	pb "github.com/moul/pb/grpcbin/go-grpc"
+
 	"github.com/moul/grpcbin/handler"
 )
 

@@ -63,6 +63,12 @@
 			"revisionTime": "2017-04-19T06:35:19Z"
 		},
 		{
+			"checksumSHA1": "yLKXanq4yuou6rOgNhulVj58LHM=",
+			"path": "github.com/moul/pb/grpcbin/go-grpc",
+			"revision": "b640d7152b70fa55722d9c06c7c900173cf290bc",
+			"revisionTime": "2017-12-20T08:07:17Z"
+		},
+		{
 			"checksumSHA1": "GtamqiJoL7PGHsN454AoffBFMa8=",
 			"path": "golang.org/x/net/context",
 			"revision": "ea0da6f35caf3ff91581c800469e22eef75076f4",

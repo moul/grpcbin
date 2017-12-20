@@ -1,8 +1,5 @@
-install: grpcbin/grpcbin.pb.go
+install:
 	go install -v .
-
-grpcbin/grpcbin.pb.go: grpcbin/grpcbin.proto
-	go generate
 
 test:
 	go test -v .

@@ -348,15 +348,25 @@ const _ = grpc.SupportPackageIsVersion4
 // Client API for GRPCBin service
 
 type GRPCBinClient interface {
+	// This endpoint
 	Index(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*IndexReply, error)
+	// Unary endpoint that takes no argument and replies an empty message.
 	Empty(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*EmptyMessage, error)
+	// Unary endpoint that replies a received DummyMessage
 	DummyUnary(ctx context.Context, in *DummyMessage, opts ...grpc.CallOption) (*DummyMessage, error)
+	// Stream endpoint that sends back 10 times the received DummyMessage
 	DummyServerStream(ctx context.Context, in *DummyMessage, opts ...grpc.CallOption) (GRPCBin_DummyServerStreamClient, error)
+	// Stream endpoint that receives 10 DummyMessages and replies with the last received one
 	DummyClientStream(ctx context.Context, opts ...grpc.CallOption) (GRPCBin_DummyClientStreamClient, error)
+	// Stream endpoint that sends back a received DummyMessage indefinitely (chat mode)
 	DummyBidirectionalStreamStream(ctx context.Context, opts ...grpc.CallOption) (GRPCBin_DummyBidirectionalStreamStreamClient, error)
+	// Unary endpoint that raises a specified (by code) gRPC error
 	SpecificError(ctx context.Context, in *SpecificErrorRequest, opts ...grpc.CallOption) (*EmptyMessage, error)
+	// Unary endpoint that raises a random gRPC error
 	RandomError(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*EmptyMessage, error)
+	// Unary endpoint that returns headers
 	HeadersUnary(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*HeadersMessage, error)
+	// Unary endpoint that returns no respnose
 	NoResponseUnary(ctx context.Context, in *EmptyMessage, opts ...grpc.CallOption) (*EmptyMessage, error)
 }
 
@@ -531,15 +541,25 @@ func (c *gRPCBinClient) NoResponseUnary(ctx context.Context, in *EmptyMessage, o
 // Server API for GRPCBin service
 
 type GRPCBinServer interface {
+	// This endpoint
 	Index(context.Context, *EmptyMessage) (*IndexReply, error)
+	// Unary endpoint that takes no argument and replies an empty message.
 	Empty(context.Context, *EmptyMessage) (*EmptyMessage, error)
+	// Unary endpoint that replies a received DummyMessage
 	DummyUnary(context.Context, *DummyMessage) (*DummyMessage, error)
+	// Stream endpoint that sends back 10 times the received DummyMessage
 	DummyServerStream(*DummyMessage, GRPCBin_DummyServerStreamServer) error
+	// Stream endpoint that receives 10 DummyMessages and replies with the last received one
 	DummyClientStream(GRPCBin_DummyClientStreamServer) error
+	// Stream endpoint that sends back a received DummyMessage indefinitely (chat mode)
 	DummyBidirectionalStreamStream(GRPCBin_DummyBidirectionalStreamStreamServer) error
+	// Unary endpoint that raises a specified (by code) gRPC error
 	SpecificError(context.Context, *SpecificErrorRequest) (*EmptyMessage, error)
+	// Unary endpoint that raises a random gRPC error
 	RandomError(context.Context, *EmptyMessage) (*EmptyMessage, error)
+	// Unary endpoint that returns headers
 	HeadersUnary(context.Context, *EmptyMessage) (*HeadersMessage, error)
+	// Unary endpoint that returns no respnose
 	NoResponseUnary(context.Context, *EmptyMessage) (*EmptyMessage, error)
 }
 
