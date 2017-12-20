@@ -27,7 +27,7 @@ Example with [grpcc](https://github.com/njpatel/grpcc):
 
 ```console
 # fetch proto and install tool
-$ wget -qN https://github.com/moul/grpcbin/raw/master/grpcbin/grpcbin.proto
+$ wget -qN https://github.com/moul/pb/raw/master/grpcbin/grpcbin.proto
 $ npm install -g grpcc
 
 # interactive client
