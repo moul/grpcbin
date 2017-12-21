@@ -2,10 +2,13 @@ package main
 
 import (
 	"flag"
+	"html/template"
 	"log"
 	"net"
+	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 
 	"google.golang.org/grpc"
@@ -24,6 +27,29 @@ var (
 	certFile     = flag.String("tls-cert", "cert/server.crt", "TLS cert file")
 )
 
+var index = `<!DOCTYPE html>
+<html>
+  <body>
+    <h1>grpcbin: gRPC Request & Response Service</h1>
+    <h2>Endpoints</h2>
+    <ul>
+      <li><a href="http://grpcb.in:9000">grpc://grpcb.in:9000 (without TLS)</a></li>
+      <li><a href="https://grpcb.in:9001">grpc://grpcb.in:9001 (with TLS)</a></li>
+    </ul>
+    <h2>Methods (<a href="https://github.com/moul/pb/blob/master/grpcbin/grpcbin.proto">grpcbin.proto</a>)</h2>
+    <ul>
+      {{- range .}}
+      <li>{{.MethodName}}</li>
+      {{- end}}
+    </ul>
+    <h2>Examples</h2>
+    <a href="https://github.com/moul/grpcbin-example">https://github.com/moul/grpcbin-example</a>
+    <h2>About</h2>
+    <a href="https://github.com/moul/grpcbin">Developed</a> by <a href="https://twitter.com/moul">Manfred Touron</a>, inspired by <a href="https://httpbin.org/">https://httpbin.org/</a>
+  </body>
+</html>
+`
+
 func main() {
 	// parse flags
 	flag.Parse()
@@ -41,7 +67,8 @@ func main() {
 		// register reflection service on gRPC server
 		reflection.Register(s)
 
-		log.Printf("listening on %s (insecure)\n", *insecureAddr)
+		// serve
+		log.Printf("listening on %s (insecure gRPC)\n", *insecureAddr)
 		if err := s.Serve(listener); err != nil {
 			log.Fatalf("failed to serve: %v", err)
 		}
@@ -49,23 +76,33 @@ func main() {
 
 	// secure listener
 	go func() {
-		listener, err := net.Listen("tcp", *secureAddr)
-		if err != nil {
-			log.Fatalf("failed to listen: %v", err)
-		}
+		mux := http.NewServeMux()
+		t := template.New("")
+		t, _ = t.Parse(index)
+		mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+			t.Execute(w, pb.GRPCBin_serviceDesc.Methods)
+		})
+
+		// create gRPC server
 		creds, err := credentials.NewServerTLSFromFile(*certFile, *keyFile)
 		if err != nil {
 			log.Fatalf("failed to load TLS keys: %v", err)
 		}
-
-		// create gRPC server
 		s := grpc.NewServer(grpc.Creds(creds))
 		pb.RegisterGRPCBinServer(s, &handler.Handlers{})
 		// register reflection service on gRPC server
 		reflection.Register(s)
 
-		log.Printf("listening on %s (secure)\n", *secureAddr)
-		if err := s.Serve(listener); err != nil {
+		// listen and serve
+		log.Printf("listening on %s (secure gRPC + secure HTTP/2)\n", *secureAddr)
+		handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.ProtoMajor == 2 && strings.Contains(r.Header.Get("Content-Type"), "application/grpc") {
+				s.ServeHTTP(w, r)
+			} else {
+				mux.ServeHTTP(w, r)
+			}
+		})
+		if err := http.ListenAndServeTLS(*secureAddr, *certFile, *keyFile, handler); err != nil {
 			log.Fatalf("failed to listen: %v", err)
 		}
 	}()
