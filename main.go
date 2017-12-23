@@ -78,9 +78,15 @@ func main() {
 	go func() {
 		mux := http.NewServeMux()
 		t := template.New("")
-		t, _ = t.Parse(index)
+		var err error
+		t, err = t.Parse(index)
+		if err != nil {
+			log.Fatalf("failt to parse template: %v", err)
+		}
 		mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			t.Execute(w, pb.GRPCBin_serviceDesc.Methods)
+			if err2 := t.Execute(w, pb.GRPCBin_serviceDesc.Methods); err != nil {
+				http.Error(w, err2.Error(), http.StatusInternalServerError)
+			}
 		})
 
 		// create gRPC server
