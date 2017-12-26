@@ -21,10 +21,12 @@ import (
 )
 
 var (
-	insecureAddr = flag.String("insecure-addr", ":9000", "The ip:port combination to listen on for insecure connections")
-	secureAddr   = flag.String("metrics-addr", ":9001", "The ip:port combination to listen on for secure connections")
-	keyFile      = flag.String("tls-key", "cert/server.key", "TLS private key file")
-	certFile     = flag.String("tls-cert", "cert/server.crt", "TLS cert file")
+	insecureAddr       = flag.String("insecure-addr", ":9000", "The ip:port combination to listen on for insecure connections")
+	secureAddr         = flag.String("metrics-addr", ":9001", "The ip:port combination to listen on for secure connections")
+	keyFile            = flag.String("tls-key", "cert/server.key", "TLS private key file")
+	certFile           = flag.String("tls-cert", "cert/server.crt", "TLS cert file")
+	production         = flag.Bool("production", false, "Production mode")
+	productionHTTPAddr = flag.String("production-http-addr", ":80", "The ip:port combination to listen on for production HTTP server")
 )
 
 var index = `<!DOCTYPE html>
@@ -100,7 +102,6 @@ func main() {
 		reflection.Register(s)
 
 		// listen and serve
-		log.Printf("listening on %s (secure gRPC + secure HTTP/2)\n", *secureAddr)
 		handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			if r.ProtoMajor == 2 && strings.Contains(r.Header.Get("Content-Type"), "application/grpc") {
 				s.ServeHTTP(w, r)
@@ -108,10 +109,24 @@ func main() {
 				mux.ServeHTTP(w, r)
 			}
 		})
+		log.Printf("listening on %s (secure gRPC + secure HTTP/2)\n", *secureAddr)
 		if err := http.ListenAndServeTLS(*secureAddr, *certFile, *keyFile, handler); err != nil {
 			log.Fatalf("failed to listen: %v", err)
 		}
 	}()
+
+	if *production {
+		go func() {
+			mux := http.NewServeMux()
+			mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+				http.Redirect(w, r, "https://grpcb.in", 301)
+			})
+			log.Printf("listening on %s (production HTTP)\n", *productionHTTPAddr)
+			if err := http.ListenAndServe(*productionHTTPAddr, mux); err != nil {
+				log.Fatalf("failed to listen: %v", err)
+			}
+		}()
+	}
 
 	// handle Ctrl+C
 	c := make(chan os.Signal, 1)
