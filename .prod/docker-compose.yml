@@ -1,0 +1,12 @@
+version: '2.0'
+
+services:
+  grpcbin:
+    image: moul/grpcbin
+    ports:
+      - 80:80      # redirect to https://
+      - 9000:9000  # insecure gRPC
+      - 9001:9001  # secure gRPC + secure webserver
+      - 443:9001   # secure gRPC + secure webserver on default https port
+    restart: until-stopped
+    command: --production
