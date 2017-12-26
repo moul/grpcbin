@@ -10,3 +10,5 @@ services:
       - 443:9001   # secure gRPC + secure webserver on default https port
     restart: until-stopped
     command: --production
+    volumes:
+      - ./autocert:/root/autocert

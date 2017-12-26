@@ -1,7 +1,10 @@
 package main
 
 import (
+	"context"
+	"crypto/tls"
 	"flag"
+	"fmt"
 	"html/template"
 	"log"
 	"net"
@@ -10,6 +13,8 @@ import (
 	"os/signal"
 	"strings"
 	"syscall"
+
+	"golang.org/x/crypto/acme/autocert"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -25,8 +30,10 @@ var (
 	secureAddr         = flag.String("metrics-addr", ":9001", "The ip:port combination to listen on for secure connections")
 	keyFile            = flag.String("tls-key", "cert/server.key", "TLS private key file")
 	certFile           = flag.String("tls-cert", "cert/server.crt", "TLS cert file")
-	production         = flag.Bool("production", false, "Production mode")
+	inProduction       = flag.Bool("production", false, "Production mode")
 	productionHTTPAddr = flag.String("production-http-addr", ":80", "The ip:port combination to listen on for production HTTP server")
+	autocertDir        = flag.String("autocert-dir", "./autocert", "Autocert (let's encrypt) caching directory")
+	secureDomain       = flag.String("secure-domain", "grpcb.in", "The domain used for secure connections (ssl certificated)")
 )
 
 var index = `<!DOCTYPE html>
@@ -78,44 +85,82 @@ func main() {
 
 	// secure listener
 	go func() {
-		mux := http.NewServeMux()
-		t := template.New("")
-		var err error
-		t, err = t.Parse(index)
-		if err != nil {
-			log.Fatalf("failt to parse template: %v", err)
-		}
-		mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			if err2 := t.Execute(w, pb.GRPCBin_serviceDesc.Methods); err != nil {
-				http.Error(w, err2.Error(), http.StatusInternalServerError)
+		var (
+			creds   credentials.TransportCredentials
+			httpSrv = &http.Server{
+				Addr: *secureAddr,
 			}
-		})
+		)
 
-		// create gRPC server
-		creds, err := credentials.NewServerTLSFromFile(*certFile, *keyFile)
-		if err != nil {
-			log.Fatalf("failed to load TLS keys: %v", err)
+		// initialize tls configuration and grpc credentials based on production/development environment
+		if *inProduction {
+			hostPolicy := func(ctx context.Context, host string) error {
+				allowedHost := "grpcb.in"
+				if host == allowedHost {
+					return nil
+				}
+				return fmt.Errorf("acme/autocert: only %s host is allowed", allowedHost)
+			}
+			m := autocert.Manager{
+				Prompt:     autocert.AcceptTOS,
+				HostPolicy: hostPolicy,
+				Cache:      autocert.DirCache(*autocertDir),
+			}
+			httpSrv.TLSConfig = &tls.Config{GetCertificate: m.GetCertificate}
+			creds = credentials.NewTLS(httpSrv.TLSConfig)
+		} else {
+			var err error
+			creds, err = credentials.NewServerTLSFromFile(*certFile, *keyFile)
+			if err != nil {
+				log.Fatalf("failed to load TLS keys: %v", err)
+			}
+			cert, err := tls.LoadX509KeyPair(*certFile, *keyFile)
+			if err != nil {
+				log.Fatalf("failed to laod TLS keys: %v", err)
+			}
+			httpSrv.TLSConfig = &tls.Config{Certificates: []tls.Certificate{cert}}
 		}
+
+		// setup grpc servef
 		s := grpc.NewServer(grpc.Creds(creds))
 		pb.RegisterGRPCBinServer(s, &handler.Handlers{})
 		// register reflection service on gRPC server
 		reflection.Register(s)
 
-		// listen and serve
-		handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			if r.ProtoMajor == 2 && strings.Contains(r.Header.Get("Content-Type"), "application/grpc") {
-				s.ServeHTTP(w, r)
-			} else {
-				mux.ServeHTTP(w, r)
+		// initilaize HTTP routing based on production/development environment
+		if *inProduction {
+			mux := http.NewServeMux()
+			t := template.New("")
+			var err error
+			t, err = t.Parse(index)
+			if err != nil {
+				log.Fatalf("failt to parse template: %v", err)
 			}
-		})
+			mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+				if err2 := t.Execute(w, pb.GRPCBin_serviceDesc.Methods); err != nil {
+					http.Error(w, err2.Error(), http.StatusInternalServerError)
+				}
+			})
+			httpSrv.Handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				if r.ProtoMajor == 2 && strings.Contains(r.Header.Get("Content-Type"), "application/grpc") {
+					s.ServeHTTP(w, r)
+				} else {
+					mux.ServeHTTP(w, r)
+				}
+			})
+		} else {
+			httpSrv.Handler = s
+		}
+
+		// listen and serve
 		log.Printf("listening on %s (secure gRPC + secure HTTP/2)\n", *secureAddr)
-		if err := http.ListenAndServeTLS(*secureAddr, *certFile, *keyFile, handler); err != nil {
+		if err := httpSrv.ListenAndServeTLS("", ""); err != nil {
 			log.Fatalf("failed to listen: %v", err)
 		}
 	}()
 
-	if *production {
+	if *inProduction {
+		// production HTTP server (redirect to https)
 		go func() {
 			mux := http.NewServeMux()
 			mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
