@@ -12,8 +12,10 @@ import (
 
 type Handler struct{}
 
+const defaultGreeting = "noname"
+
 func (h *Handler) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloResponse, error) {
-	greeting := "noname"
+	greeting := defaultGreeting
 	if in.Greeting != nil {
 		greeting = *in.Greeting
 	}
@@ -33,7 +35,7 @@ func (h *Handler) LotsOfGreetings(stream pb.HelloService_LotsOfGreetingsServer) 
 		if in.Greeting != nil {
 			greetings = append(greetings, *in.Greeting)
 		} else {
-			greetings = append(greetings, "noname")
+			greetings = append(greetings, defaultGreeting)
 		}
 	}
 	reply := fmt.Sprintf("hello %s", strings.Join(greetings, ", "))
@@ -41,7 +43,7 @@ func (h *Handler) LotsOfGreetings(stream pb.HelloService_LotsOfGreetingsServer) 
 }
 
 func (h *Handler) LotsOfReplies(in *pb.HelloRequest, stream pb.HelloService_LotsOfRepliesServer) error {
-	greeting := "noname"
+	greeting := defaultGreeting
 	if in.Greeting != nil {
 		greeting = *in.Greeting
 	}
@@ -64,7 +66,7 @@ func (h *Handler) BidiHello(stream pb.HelloService_BidiHelloServer) error {
 			return err
 		}
 
-		greeting := "noname"
+		greeting := defaultGreeting
 		if in.Greeting != nil {
 			greeting = *in.Greeting
 		}
