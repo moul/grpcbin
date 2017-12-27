@@ -20,9 +20,11 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 
-	pb "github.com/moul/pb/grpcbin/go-grpc"
+	grpcbinpb "github.com/moul/pb/grpcbin/go-grpc"
+	hellopb "github.com/moul/pb/hello/go-grpc"
 
-	"github.com/moul/grpcbin/handler"
+	grpcbinhandler "github.com/moul/grpcbin/handler/grpcbin"
+	hellohandler "github.com/moul/grpcbin/handler/hello"
 )
 
 var (
@@ -45,11 +47,25 @@ var index = `<!DOCTYPE html>
       <li><a href="http://grpcb.in:9000">grpc://grpcb.in:9000 (without TLS)</a></li>
       <li><a href="https://grpcb.in:9001">grpc://grpcb.in:9001 (with TLS)</a></li>
     </ul>
-    <h2>Methods (<a href="https://github.com/moul/pb/blob/master/grpcbin/grpcbin.proto">grpcbin.proto</a>)</h2>
+    <h2>Methods</h2>
     <ul>
-      {{- range .}}
-      <li>{{.MethodName}}</li>
-      {{- end}}
+      <li>
+        <a href="https://github.com/moul/pb/blob/master/grpcbin/grpcbin.proto">grpcbin.proto</a>
+        <ul>
+          {{- range .}}
+          <li>{{.MethodName}}</li>
+          {{- end}}
+        </ul>
+      </li>
+      <li>
+        <a href="https://github.com/moul/pb/blob/master/hello/hello.proto">hello.proto</a>
+        <ul>
+          <li>SayHello</li>
+          <li>LotsOfReplies</li>
+          <li>LotsOfGreetings</li>
+          <li>BidiHello</li>
+        </ul>
+      </li>
     </ul>
     <h2>Examples</h2>
     <a href="https://github.com/moul/grpcbin-example">https://github.com/moul/grpcbin-example</a>
@@ -72,7 +88,8 @@ func main() {
 
 		// create gRPC server
 		s := grpc.NewServer()
-		pb.RegisterGRPCBinServer(s, &handler.Handlers{})
+		grpcbinpb.RegisterGRPCBinServer(s, &grpcbinhandler.Handler{})
+		hellopb.RegisterHelloServiceServer(s, &hellohandler.Handler{})
 		// register reflection service on gRPC server
 		reflection.Register(s)
 
@@ -123,7 +140,8 @@ func main() {
 
 		// setup grpc servef
 		s := grpc.NewServer(grpc.Creds(creds))
-		pb.RegisterGRPCBinServer(s, &handler.Handlers{})
+		grpcbinpb.RegisterGRPCBinServer(s, &grpcbinhandler.Handler{})
+		hellopb.RegisterHelloServiceServer(s, &hellohandler.Handler{})
 		// register reflection service on gRPC server
 		reflection.Register(s)
 
@@ -137,7 +155,7 @@ func main() {
 				log.Fatalf("failt to parse template: %v", err)
 			}
 			mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-				if err2 := t.Execute(w, pb.GRPCBin_serviceDesc.Methods); err != nil {
+				if err2 := t.Execute(w, grpcbinpb.GRPCBin_serviceDesc.Methods); err != nil {
 					http.Error(w, err2.Error(), http.StatusInternalServerError)
 				}
 			})

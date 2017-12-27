@@ -1,4 +1,4 @@
-package handler
+package grpcbinhandler
 
 import (
 	"io"
@@ -13,9 +13,9 @@ import (
 	pb "github.com/moul/pb/grpcbin/go-grpc"
 )
 
-type Handlers struct{}
+type Handler struct{}
 
-func (h *Handlers) Index(ctx context.Context, in *pb.EmptyMessage) (*pb.IndexReply, error) {
+func (h *Handler) Index(ctx context.Context, in *pb.EmptyMessage) (*pb.IndexReply, error) {
 	reply := pb.IndexReply{
 		Description: "gRPC testing server",
 		Endpoints:   []*pb.IndexReply_Endpoint{},
@@ -29,7 +29,7 @@ func (h *Handlers) Index(ctx context.Context, in *pb.EmptyMessage) (*pb.IndexRep
 	return &reply, nil
 }
 
-func (h *Handlers) HeadersUnary(ctx context.Context, in *pb.EmptyMessage) (*pb.HeadersMessage, error) {
+func (h *Handler) HeadersUnary(ctx context.Context, in *pb.EmptyMessage) (*pb.HeadersMessage, error) {
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
 		return nil, status.Error(codes.InvalidArgument, "cannot parse metadata from incoming context")
@@ -43,24 +43,24 @@ func (h *Handlers) HeadersUnary(ctx context.Context, in *pb.EmptyMessage) (*pb.H
 	return &resp, nil
 }
 
-func (h *Handlers) NoResponseUnary(ctx context.Context, in *pb.EmptyMessage) (*pb.EmptyMessage, error) {
+func (h *Handler) NoResponseUnary(ctx context.Context, in *pb.EmptyMessage) (*pb.EmptyMessage, error) {
 	return nil, nil
 }
 
-func (h *Handlers) Empty(ctx context.Context, in *pb.EmptyMessage) (*pb.EmptyMessage, error) {
+func (h *Handler) Empty(ctx context.Context, in *pb.EmptyMessage) (*pb.EmptyMessage, error) {
 	return &pb.EmptyMessage{}, nil
 }
 
-func (h *Handlers) DummyUnary(ctx context.Context, in *pb.DummyMessage) (*pb.DummyMessage, error) {
+func (h *Handler) DummyUnary(ctx context.Context, in *pb.DummyMessage) (*pb.DummyMessage, error) {
 	return in, nil
 }
 
-func (h *Handlers) RandomError(ctx context.Context, in *pb.EmptyMessage) (*pb.EmptyMessage, error) {
+func (h *Handler) RandomError(ctx context.Context, in *pb.EmptyMessage) (*pb.EmptyMessage, error) {
 	c := codes.Code(uint32(rand.Intn(16)))
 	return &pb.EmptyMessage{}, status.Error(c, c.String())
 }
 
-func (h *Handlers) SpecificError(ctx context.Context, in *pb.SpecificErrorRequest) (*pb.EmptyMessage, error) {
+func (h *Handler) SpecificError(ctx context.Context, in *pb.SpecificErrorRequest) (*pb.EmptyMessage, error) {
 	c := codes.Code(in.Code)
 	msg := c.String()
 	if in.Reason != "" {
@@ -69,7 +69,7 @@ func (h *Handlers) SpecificError(ctx context.Context, in *pb.SpecificErrorReques
 	return &pb.EmptyMessage{}, status.Error(c, msg)
 }
 
-func (h *Handlers) DummyBidirectionalStreamStream(stream pb.GRPCBin_DummyBidirectionalStreamStreamServer) error {
+func (h *Handler) DummyBidirectionalStreamStream(stream pb.GRPCBin_DummyBidirectionalStreamStreamServer) error {
 	for {
 		req, err := stream.Recv()
 		if err == io.EOF {
@@ -84,7 +84,7 @@ func (h *Handlers) DummyBidirectionalStreamStream(stream pb.GRPCBin_DummyBidirec
 	return nil
 }
 
-func (h *Handlers) DummyClientStream(stream pb.GRPCBin_DummyClientStreamServer) error {
+func (h *Handler) DummyClientStream(stream pb.GRPCBin_DummyClientStreamServer) error {
 	var req *pb.DummyMessage
 	var err error
 	for i := 0; i < 10; i++ {
@@ -98,7 +98,7 @@ func (h *Handlers) DummyClientStream(stream pb.GRPCBin_DummyClientStreamServer) 
 	return stream.SendAndClose(req)
 }
 
-func (h *Handlers) DummyServerStream(in *pb.DummyMessage, stream pb.GRPCBin_DummyServerStreamServer) error {
+func (h *Handler) DummyServerStream(in *pb.DummyMessage, stream pb.GRPCBin_DummyServerStreamServer) error {
 	for i := 0; i < 10; i++ {
 		if err := stream.Send(in); err != nil {
 			return err

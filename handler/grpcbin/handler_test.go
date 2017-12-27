@@ -1,4 +1,4 @@
-package handler
+package grpcbinhandler
 
 import (
 	"context"
@@ -9,9 +9,9 @@ import (
 	pb "github.com/moul/pb/grpcbin/go-grpc"
 )
 
-func TestHandlers(t *testing.T) {
-	Convey("Testing Handlers{}", t, func() {
-		s := Handlers{}
+func TestHandler(t *testing.T) {
+	Convey("Testing Handler{}", t, func() {
+		s := Handler{}
 		ctx := context.Background()
 
 		Convey("Testing Index()", func() {
