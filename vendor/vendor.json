@@ -75,6 +75,12 @@
 			"revisionTime": "2017-12-20T08:07:17Z"
 		},
 		{
+			"checksumSHA1": "M/yUnxceWaM22G0lzirMM6RurWI=",
+			"path": "github.com/moul/pb/hello/go-grpc",
+			"revision": "1c7c48fa5c0359b8b5cecbf6bb740db000a72254",
+			"revisionTime": "2017-12-21T21:54:34Z"
+		},
+		{
 			"checksumSHA1": "RPVh5/wbvFG0q0CWHXifXpkYTDg=",
 			"path": "github.com/smartystreets/assertions",
 			"revision": "26acb9229f421449ac63d014995b282d59261a8b",
