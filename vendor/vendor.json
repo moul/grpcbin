@@ -69,6 +69,12 @@
 			"revisionTime": "2016-12-28T00:43:38Z"
 		},
 		{
+			"checksumSHA1": "EEyzIyGYwolmdV8EvLWwumDwHyg=",
+			"path": "github.com/moul/pb/addsvc/go-grpc",
+			"revision": "f2bd78175877f8a54b6d9f2c268551bca1aeed51",
+			"revisionTime": "2017-12-27T05:04:57Z"
+		},
+		{
 			"checksumSHA1": "yLKXanq4yuou6rOgNhulVj58LHM=",
 			"path": "github.com/moul/pb/grpcbin/go-grpc",
 			"revision": "b640d7152b70fa55722d9c06c7c900173cf290bc",

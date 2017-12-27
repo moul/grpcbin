@@ -20,9 +20,11 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 
+	addsvcpb "github.com/moul/pb/addsvc/go-grpc"
 	grpcbinpb "github.com/moul/pb/grpcbin/go-grpc"
 	hellopb "github.com/moul/pb/hello/go-grpc"
 
+	addsvchandler "github.com/moul/grpcbin/handler/addsvc"
 	grpcbinhandler "github.com/moul/grpcbin/handler/grpcbin"
 	hellohandler "github.com/moul/grpcbin/handler/hello"
 )
@@ -66,6 +68,13 @@ var index = `<!DOCTYPE html>
           <li>BidiHello</li>
         </ul>
       </li>
+      <li>
+        <a href="https://github.com/moul/pb/blob/master/addsvc/addsvc.proto">addsvc.proto</a>
+        <ul>
+          <li>Sum</li>
+          <li>Concat</li>
+        </ul>
+      </li>
     </ul>
     <h2>Examples</h2>
     <a href="https://github.com/moul/grpcbin-example">https://github.com/moul/grpcbin-example</a>
@@ -90,6 +99,7 @@ func main() {
 		s := grpc.NewServer()
 		grpcbinpb.RegisterGRPCBinServer(s, &grpcbinhandler.Handler{})
 		hellopb.RegisterHelloServiceServer(s, &hellohandler.Handler{})
+		addsvcpb.RegisterAddServer(s, &addsvchandler.Handler{})
 		// register reflection service on gRPC server
 		reflection.Register(s)
 
@@ -142,6 +152,7 @@ func main() {
 		s := grpc.NewServer(grpc.Creds(creds))
 		grpcbinpb.RegisterGRPCBinServer(s, &grpcbinhandler.Handler{})
 		hellopb.RegisterHelloServiceServer(s, &hellohandler.Handler{})
+		addsvcpb.RegisterAddServer(s, &addsvchandler.Handler{})
 		// register reflection service on gRPC server
 		reflection.Register(s)
 

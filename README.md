@@ -7,12 +7,16 @@ httpbin like for gRPC
 [![GoDoc](https://godoc.org/github.com/moul/grpcbin?status.svg)](https://godoc.org/github.com/moul/grpcbin/handler)
 [![License](https://img.shields.io/github/license/moul/grpcbin.svg)](https://github.com/moul/grpcbin/blob/master/LICENSE)
 
-## Demo server
+## Links
 
-* endpoint (insecure): http://grpcb.in:9000
-* endpoint (secure): http://grpcb.in:9001
-* [grpcbin.proto](https://github.com/moul/pb/blob/master/grpcbin/grpcbin.proto)
-* [hello.proto](https://github.com/moul/pb/blob/master/hello/hello.proto)
+* Servers
+  * insecure gRPC (over HTTP, without TLS): grpc://grpcb.in:9000
+  * secure gRPC (with let's encrypt TLS): grpc://grpcb.in:443 and grpc://grpcb.in:9001
+  * webserver: https://grpcb.in
+* Services
+  * [grpcbin.proto](https://github.com/moul/pb/blob/master/grpcbin/grpcbin.proto)
+  * [hello.proto](https://github.com/moul/pb/blob/master/hello/hello.proto)
+  * [addsvc.proto](https://github.com/moul/pb/blob/master/addsvc/addsvc.proto)
 * [examples](https://github.com/moul/grpcbin-example)
 
 ## Run server locally
