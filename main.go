@@ -20,9 +20,9 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 
-	pb "github.com/moul/pb/grpcbin/go-grpc"
+	grpcbinpb "github.com/moul/pb/grpcbin/go-grpc"
 
-	"github.com/moul/grpcbin/handler"
+	grpcbinhandler "github.com/moul/grpcbin/handler/grpcbin"
 )
 
 var (
@@ -72,7 +72,7 @@ func main() {
 
 		// create gRPC server
 		s := grpc.NewServer()
-		pb.RegisterGRPCBinServer(s, &handler.Handlers{})
+		grpcbinpb.RegisterGRPCBinServer(s, &grpcbinhandler.Handlers{})
 		// register reflection service on gRPC server
 		reflection.Register(s)
 
@@ -123,7 +123,7 @@ func main() {
 
 		// setup grpc servef
 		s := grpc.NewServer(grpc.Creds(creds))
-		pb.RegisterGRPCBinServer(s, &handler.Handlers{})
+		grpcbinpb.RegisterGRPCBinServer(s, &grpcbinhandler.Handlers{})
 		// register reflection service on gRPC server
 		reflection.Register(s)
 
@@ -137,7 +137,7 @@ func main() {
 				log.Fatalf("failt to parse template: %v", err)
 			}
 			mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-				if err2 := t.Execute(w, pb.GRPCBin_serviceDesc.Methods); err != nil {
+				if err2 := t.Execute(w, grpcbinpb.GRPCBin_serviceDesc.Methods); err != nil {
 					http.Error(w, err2.Error(), http.StatusInternalServerError)
 				}
 			})
