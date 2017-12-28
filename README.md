@@ -7,6 +7,8 @@ httpbin like for gRPC
 [![GoDoc](https://godoc.org/github.com/moul/grpcbin?status.svg)](https://godoc.org/github.com/moul/grpcbin/handler)
 [![License](https://img.shields.io/github/license/moul/grpcbin.svg)](https://github.com/moul/grpcbin/blob/master/LICENSE)
 
+![overview](https://raw.githubusercontent.com/moul/grpcbin/master/.assets/overview.svg?sanitize=true)
+
 ## Links
 
 * Servers
