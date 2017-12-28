@@ -1,0 +1,34 @@
+graph G {
+    rankdir=LR;
+    subgraph cluster_0 {
+        style=filled;
+        color=lightgrey;
+        node[style=filled,color=white];
+        label="grpcb.in";
+
+        subgraph cluster_1 {
+            label="listeners";style=filled;color=white;
+            node[style=filled,color=lightgrey];
+            9000[label="gRPC over HTTP\nport=9000"];
+            443[label="https webserver +\ngRPC with TLS\nport=443 and port=9001"];
+            80[label="http webserver that\nredirect to https"];
+        }
+
+        subgraph cluster_2 {
+            label="services";style=filled;color=white;
+            node[style=filled,color=lightgrey];
+            hellosvc, addsvc, grpcbinsvc;
+        }
+    }
+    grpcclient[label="gRPC client"];
+    9000 -- hellosvc;
+    9000 -- addsvc;
+    443 -- hellosvc;
+    443 -- addsvc;
+    9000 -- grpcbinsvc;
+    443 -- grpcbinsvc;
+    browser -- 443;
+    browser -- 80;
+    grpcclient -- 9000;
+    grpcclient -- 443;
+}
