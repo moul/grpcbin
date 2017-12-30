@@ -19,7 +19,9 @@ httpbin like for gRPC
   * [grpcbin.proto](https://github.com/moul/pb/blob/master/grpcbin/grpcbin.proto)
   * [hello.proto](https://github.com/moul/pb/blob/master/hello/hello.proto)
   * [addsvc.proto](https://github.com/moul/pb/blob/master/addsvc/addsvc.proto)
-* [examples](https://github.com/moul/grpcbin-example)
+* Examples
+  * multiple languages: https://github.com/moul/grpcbin-example
+  * haskell: https://github.com/lucasdicioccio/http2-client-grpc-example/
 
 ## Run server locally
 
