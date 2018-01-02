@@ -77,7 +77,10 @@ var index = `<!DOCTYPE html>
       </li>
     </ul>
     <h2>Examples</h2>
-    <a href="https://github.com/moul/grpcbin-example">https://github.com/moul/grpcbin-example</a>
+    <ul>
+      <li><a href="https://github.com/moul/grpcbin-example">https://github.com/moul/grpcbin-example</a> (multiple languages)</li>
+      <li><a href="https://github.com/lucasdicioccio/http2-client-grpc-example/">https://github.com/lucasdicioccio/http2-client-grpc-example/</a> (haskell)</li>
+    </ul>
     <h2>About</h2>
     <a href="https://github.com/moul/grpcbin">Developed</a> by <a href="https://twitter.com/moul">Manfred Touron</a>, inspired by <a href="https://httpbin.org/">https://httpbin.org/</a>
   </body>
