@@ -20,10 +20,12 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 
+	abepb "github.com/grpc-ecosystem/grpc-gateway/examples/examplepb"
 	addsvcpb "github.com/moul/pb/addsvc/go-grpc"
 	grpcbinpb "github.com/moul/pb/grpcbin/go-grpc"
 	hellopb "github.com/moul/pb/hello/go-grpc"
 
+	abehandler "github.com/grpc-ecosystem/grpc-gateway/examples/server"
 	addsvchandler "github.com/moul/grpcbin/handler/addsvc"
 	grpcbinhandler "github.com/moul/grpcbin/handler/grpcbin"
 	hellohandler "github.com/moul/grpcbin/handler/hello"
@@ -75,6 +77,24 @@ var index = `<!DOCTYPE html>
           <li>Concat</li>
         </ul>
       </li>
+      <li>
+        <a href="https://github.com/moul/pb/blob/master/a_bit_of_everything/lib/examples/examplepb/a_bit_of_everything.proto">a_bit_of_everything.proto</a>
+        <ul>
+          <li>Create</li>
+          <li>CreateBody</li>
+          <li>Lookup</li>
+          <li>Update</li>
+          <li>Delete</li>
+          <li>GetQuery</li>
+          <li>Echo</li>
+          <li>DeepPathEcho</li>
+          <li>NoBindings</li>
+          <li>Timeout</li>
+          <li>ErrorWithDetails</li>
+          <li>GetMessageWithBody</li>
+          <li>PostWithEmptyBody</li>
+        </ul>
+      </li>
     </ul>
     <h2>Examples</h2>
     <ul>
@@ -103,6 +123,7 @@ func main() {
 		grpcbinpb.RegisterGRPCBinServer(s, &grpcbinhandler.Handler{})
 		hellopb.RegisterHelloServiceServer(s, &hellohandler.Handler{})
 		addsvcpb.RegisterAddServer(s, &addsvchandler.Handler{})
+		abepb.RegisterABitOfEverythingServiceServer(s, abehandler.Handler)
 		// register reflection service on gRPC server
 		reflection.Register(s)
 
@@ -156,6 +177,7 @@ func main() {
 		grpcbinpb.RegisterGRPCBinServer(s, &grpcbinhandler.Handler{})
 		hellopb.RegisterHelloServiceServer(s, &hellohandler.Handler{})
 		addsvcpb.RegisterAddServer(s, &addsvchandler.Handler{})
+		abepb.RegisterABitOfEverythingServiceServer(s, abehandler.Handler)
 		// register reflection service on gRPC server
 		reflection.Register(s)
 
