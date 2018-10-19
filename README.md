@@ -5,7 +5,7 @@ httpbin like for gRPC
 [![Docker Build Status](https://img.shields.io/docker/build/moul/grpcbin.svg)](https://hub.docker.com/r/moul/grpcbin/)
 [![Go Report Card](https://goreportcard.com/badge/github.com/moul/grpcbin)](https://goreportcard.com/report/github.com/moul/grpcbin)
 [![GoDoc](https://godoc.org/github.com/moul/grpcbin?status.svg)](https://godoc.org/github.com/moul/grpcbin/handler)
-[![License](https://img.shields.io/github/license/moul/grpcbin.svg)](https://github.com/moul/grpcbin/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/moul/grpcbin.svg)](https://github.com/moul/grpcbin/blob/master/LICENSE) [![GuardRails badge](https://badges.production.guardrails.io/moul/grpcbin.svg)](https://www.guardrails.io)
 
 ![overview](https://raw.githubusercontent.com/moul/grpcbin/master/.assets/overview.svg?sanitize=true)
 
