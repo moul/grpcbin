@@ -1,8 +1,8 @@
 # build
-FROM            golang:1.9-alpine as builder
+FROM            golang:1.11-alpine as builder
 COPY            . /go/src/github.com/moul/grpcbin
 WORKDIR         /go/src/github.com/moul/grpcbin
-RUN             go build -o /go/bin/grpcbin -ldflags "-extldflags \"-static\"" -v
+RUN             GO111MODULE=off go build -o /go/bin/grpcbin -ldflags "-extldflags \"-static\"" -v
 
 # minimal runtime
 FROM            alpine
