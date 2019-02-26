@@ -1,5 +1,5 @@
 # build
-FROM            golang:1.11-alpine as builder
+FROM golang:1.12-alpine as builder
 COPY            . /go/src/github.com/moul/grpcbin
 WORKDIR         /go/src/github.com/moul/grpcbin
 RUN             GO111MODULE=off go build -o /go/bin/grpcbin -ldflags "-extldflags \"-static\"" -v
