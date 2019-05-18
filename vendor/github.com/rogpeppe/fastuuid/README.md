@@ -3,9 +3,9 @@
     import "github.com/rogpeppe/fastuuid"
 
 Package fastuuid provides fast UUID generation of 192 bit universally unique
-identifiers. It does not provide formatting or parsing of the identifiers (it is
-assumed that a simple hexadecimal or base64 representation is sufficient, for
-which adequate functionality exists elsewhere).
+identifiers.
+
+It also provides simple support for 128-bit RFC-4122-like UUID strings.
 
 Note that the generated UUIDs are not unguessable - each UUID generated from a
 Generator is adjacent to the previously generated UUID.

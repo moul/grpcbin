@@ -10,8 +10,11 @@ test:
 docker.test:
 	docker run -e "$(GOENV)" -v $(PWD):/go/src/github.com/moul/grpcbin golang:1.11 go test -v github.com/moul/grpcbin/...
 
+install-dev:
+	go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+
 lint:
-	gometalinter --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=golint --enable=ineffassign --enable=goconst --enable=goimports --enable=gofmt --exclude="Binds to all network interfaces" --exclude="should have comment" --enable=staticcheck --enable=gosimple --enable=misspell --deadline=60s . ./handler/...
+	golangci-lint run --no-config --deadline=60s --disable-all --enable=errcheck --enable=vet --enable=vetshadow --enable=golint --enable=ineffassign --enable=goconst --enable=goimports --enable=gofmt --exclude="Binds to all network interfaces" --exclude="should have comment" --enable=staticcheck --enable=gosimple --enable=misspell . ./handler/..
 
 gentls:
 	mkdir -p cert

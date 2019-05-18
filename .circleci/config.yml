@@ -11,6 +11,5 @@ jobs:
       - run: go get -v -t .
       - run: make test
       # - run: make integration
-      - run: go get -u github.com/alecthomas/gometalinter
-      - run: gometalinter --install
+      - run: make install-dev
       - run: make lint
