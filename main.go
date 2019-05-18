@@ -20,7 +20,7 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 
-	abepb "github.com/grpc-ecosystem/grpc-gateway/examples/examplepb"
+	abepb "github.com/grpc-ecosystem/grpc-gateway/examples/proto/examplepb"
 	addsvcpb "github.com/moul/pb/addsvc/go-grpc"
 	grpcbinpb "github.com/moul/pb/grpcbin/go-grpc"
 	hellopb "github.com/moul/pb/hello/go-grpc"
