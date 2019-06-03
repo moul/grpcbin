@@ -8,7 +8,7 @@ services:
       - 9000:9000  # insecure gRPC
       - 9001:9001  # secure gRPC + secure webserver
       - 443:9001   # secure gRPC + secure webserver on default https port
-    restart: until-stopped
+    restart: unless-stopped
     command: --production
     volumes:
       - ./autocert:/root/autocert
