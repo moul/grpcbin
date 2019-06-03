@@ -102,7 +102,7 @@ var index = `<!DOCTYPE html>
       <li><a href="https://github.com/lucasdicioccio/http2-client-grpc-example/">https://github.com/lucasdicioccio/http2-client-grpc-example/</a> (haskell)</li>
     </ul>
     <h2>About</h2>
-    <a href="https://github.com/moul/grpcbin">Developed</a> by <a href="https://twitter.com/moul">Manfred Touron</a>, inspired by <a href="https://httpbin.org/">https://httpbin.org/</a>
+    <a href="https://github.com/moul/grpcbin">Developed</a> by <a href="https://manfred.life">Manfred Touron</a>, inspired by <a href="https://httpbin.org/">https://httpbin.org/</a>
   </body>
 </html>
 `
