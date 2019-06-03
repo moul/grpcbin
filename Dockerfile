@@ -1,8 +1,12 @@
 # build
 FROM golang:1.12-alpine as builder
-COPY            . /go/src/github.com/moul/grpcbin
+RUN             apk add --no-cache git
 WORKDIR         /go/src/github.com/moul/grpcbin
-RUN             GO111MODULE=off go build -o /go/bin/grpcbin -ldflags "-extldflags \"-static\"" -v
+ENV             GO111MODULE=on
+COPY            go.mod go.sum ./
+RUN             go mod download
+COPY            . ./
+RUN             go build -o /go/bin/grpcbin -ldflags "-extldflags \"-static\"" -v
 
 # minimal runtime
 FROM            alpine
