@@ -10,8 +10,10 @@ require (
 	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a
 	golang.org/x/crypto v0.0.0-20190513172903-22d7a77e9e5f
 	golang.org/x/net v0.0.0-20190514140710-3ec191127204
+	golang.org/x/sync v0.0.0-20181108010431-42b317875d0f // indirect
 	golang.org/x/sys v0.0.0-20190516110030-61b9204099cb // indirect
 	golang.org/x/text v0.3.2 // indirect
+	google.golang.org/appengine v1.4.0 // indirect
 	google.golang.org/genproto v0.0.0-20190516172635-bb713bdc0e52 // indirect
 	google.golang.org/grpc v1.19.0
 )

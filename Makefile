@@ -1,4 +1,4 @@
-GOENV ?= GO111MODULE=off
+GOENV ?= GO111MODULE=on
 GO ?= $(GOENV) go
 
 install:
