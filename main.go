@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"crypto/tls"
 	"flag"
 	"fmt"
@@ -145,19 +144,12 @@ func main() {
 
 		// initialize tls configuration and grpc credentials based on production/development environment
 		if *inProduction {
-			hostPolicy := func(ctx context.Context, host string) error {
-				allowedHost := "grpcb.in"
-				if host == allowedHost {
-					return nil
-				}
-				return fmt.Errorf("acme/autocert: only %s host is allowed", allowedHost)
-			}
 			m := autocert.Manager{
 				Prompt:     autocert.AcceptTOS,
-				HostPolicy: hostPolicy,
+				HostPolicy: autocert.HostWhitelist("grpcb.in"),
 				Cache:      autocert.DirCache(*autocertDir),
 			}
-			httpSrv.TLSConfig = &tls.Config{GetCertificate: m.GetCertificate}
+			httpSrv.TLSConfig = m.TLSConfig()
 			creds = credentials.NewTLS(httpSrv.TLSConfig)
 		} else {
 			var err error
