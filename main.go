@@ -19,12 +19,12 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 
-	//abepb "github.com/grpc-ecosystem/grpc-gateway/examples/proto/examplepb"
+	abepb "github.com/grpc-ecosystem/grpc-gateway/examples/proto/examplepb"
 	addsvcpb "github.com/moul/pb/addsvc/go-grpc"
 	grpcbinpb "github.com/moul/pb/grpcbin/go-grpc"
 	hellopb "github.com/moul/pb/hello/go-grpc"
 
-	//abehandler "github.com/grpc-ecosystem/grpc-gateway/examples/server"
+	abehandler "github.com/grpc-ecosystem/grpc-gateway/examples/server"
 	addsvchandler "github.com/moul/grpcbin/handler/addsvc"
 	grpcbinhandler "github.com/moul/grpcbin/handler/grpcbin"
 	hellohandler "github.com/moul/grpcbin/handler/hello"
@@ -122,7 +122,7 @@ func main() {
 		grpcbinpb.RegisterGRPCBinServer(s, &grpcbinhandler.Handler{})
 		hellopb.RegisterHelloServiceServer(s, &hellohandler.Handler{})
 		addsvcpb.RegisterAddServer(s, &addsvchandler.Handler{})
-		//abepb.RegisterABitOfEverythingServiceServer(s, abehandler.Handler)
+		abepb.RegisterABitOfEverythingServiceServer(s, abehandler.NewHandler())
 		// register reflection service on gRPC server
 		reflection.Register(s)
 
@@ -169,7 +169,7 @@ func main() {
 		grpcbinpb.RegisterGRPCBinServer(s, &grpcbinhandler.Handler{})
 		hellopb.RegisterHelloServiceServer(s, &hellohandler.Handler{})
 		addsvcpb.RegisterAddServer(s, &addsvchandler.Handler{})
-		//abepb.RegisterABitOfEverythingServiceServer(s, abehandler.Handler)
+		abepb.RegisterABitOfEverythingServiceServer(s, abehandler.NewHandler())
 		// register reflection service on gRPC server
 		reflection.Register(s)
 
