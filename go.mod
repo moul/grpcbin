@@ -8,14 +8,14 @@ require (
 	github.com/rogpeppe/fastuuid v1.1.0 // indirect
 	github.com/smartystreets/assertions v0.0.0-20190401211740-f487f9de1cd3 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a
-	golang.org/x/crypto v0.0.0-20190603230018-20be4c3c3ed5
+	golang.org/x/crypto v0.0.0-20190605224628-f99c8df09eb5
 	golang.org/x/net v0.0.0-20190603230018-60506f45cf65
 	golang.org/x/sync v0.0.0-20190603230018-112230192c58 // indirect
 	golang.org/x/sys v0.0.0-20190603230018-4c4f7f33c9ed // indirect
 	golang.org/x/text v0.3.2 // indirect
 	google.golang.org/appengine v1.6.0 // indirect
-	google.golang.org/genproto v0.0.0-20190603230018-fb225487d101 // indirect
-	google.golang.org/grpc v1.21.0
+	google.golang.org/genproto v0.0.0-20190605224628-eb0b1bdb6ae6 // indirect
+	google.golang.org/grpc v1.21.1
 )
 
 replace github.com/grpc-ecosystem/grpc-gateway => github.com/moul/grpc-gateway v1.9.1-0.20190603230725-390f150e109c
