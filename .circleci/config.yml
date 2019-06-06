@@ -10,5 +10,5 @@ jobs:
       - run: make install
       - run: make test
       # - run: make integration
-      - run: make install-dev
-      - run: make lint
+      #- run: make install-dev
+      #- run: make lint
