@@ -3,12 +3,11 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.12
-
     working_directory: /go/src/github.com/moul/grpcbin
     steps:
       - checkout
+      - run: make download
       - run: make install
-      - run: go get -v -t .
       - run: make test
       # - run: make integration
       - run: make install-dev
