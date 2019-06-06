@@ -3,10 +3,10 @@ module github.com/moul/grpcbin
 go 1.12
 
 require (
-	github.com/grpc-ecosystem/grpc-gateway v0.0.0-20190514190838-b5f6fca70e91
+	github.com/grpc-ecosystem/grpc-gateway v1.9.0
 	github.com/moul/pb v0.0.0-20180404114147-54bdd96e6a52
 	github.com/rogpeppe/fastuuid v1.1.0 // indirect
-	github.com/smartystreets/assertions v0.0.0-20190401211740-f487f9de1cd3 // indirect
+	github.com/smartystreets/assertions v1.0.0 // indirect
 	github.com/smartystreets/goconvey v0.0.0-20190330032615-68dc04aab96a
 	golang.org/x/crypto v0.0.0-20190605224628-f99c8df09eb5
 	golang.org/x/net v0.0.0-20190603230018-60506f45cf65
