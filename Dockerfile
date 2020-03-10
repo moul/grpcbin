@@ -1,5 +1,5 @@
 # build
-FROM golang:1.12-alpine as builder
+FROM golang:1.14-alpine as builder
 RUN             apk add --no-cache git
 WORKDIR         /go/src/github.com/moul/grpcbin
 ENV             GO111MODULE=on
