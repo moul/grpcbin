@@ -5,7 +5,7 @@ import (
 
 	pb "github.com/moul/pb/addsvc/go-grpc"
 
-	addservice "github.com/moul/grpcbin/handler/addsvc/imported"
+	addservice "moul.io/grpcbin/handler/addsvc/imported"
 )
 
 type Handler struct{}

@@ -25,9 +25,9 @@ import (
 	hellopb "github.com/moul/pb/hello/go-grpc"
 
 	abehandler "github.com/grpc-ecosystem/grpc-gateway/examples/server"
-	addsvchandler "github.com/moul/grpcbin/handler/addsvc"
-	grpcbinhandler "github.com/moul/grpcbin/handler/grpcbin"
-	hellohandler "github.com/moul/grpcbin/handler/hello"
+	addsvchandler "moul.io/grpcbin/handler/addsvc"
+	grpcbinhandler "moul.io/grpcbin/handler/grpcbin"
+	hellohandler "moul.io/grpcbin/handler/hello"
 )
 
 var (
@@ -38,7 +38,6 @@ var (
 	inProduction       = flag.Bool("production", false, "Production mode")
 	productionHTTPAddr = flag.String("production-http-addr", ":80", "The ip:port combination to listen on for production HTTP server")
 	autocertDir        = flag.String("autocert-dir", "./autocert", "Autocert (let's encrypt) caching directory")
-	secureDomain       = flag.String("secure-domain", "grpcb.in", "The domain used for secure connections (ssl certificated)")
 )
 
 var index = `<!DOCTYPE html>
