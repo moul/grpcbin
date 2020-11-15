@@ -3,7 +3,7 @@ module moul.io/grpcbin
 go 1.14
 
 require (
-	github.com/grpc-ecosystem/grpc-gateway v1.15.0
+	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/moul/pb v0.0.0-20180404114147-54bdd96e6a52
 	github.com/rogpeppe/fastuuid v1.1.0 // indirect
 	github.com/smartystreets/assertions v1.0.0 // indirect
