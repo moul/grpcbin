@@ -11,7 +11,7 @@ require (
 	golang.org/x/crypto v0.0.0-20201002170205-7f63de1d35b0
 	golang.org/x/net v0.0.0-20201002202402-0a1ea396d57c
 	golang.org/x/text v0.3.2 // indirect
-	google.golang.org/grpc v1.32.0
+	google.golang.org/grpc v1.33.2
 )
 
 replace github.com/grpc-ecosystem/grpc-gateway => github.com/moul/grpc-gateway v1.9.1-0.20190603230725-390f150e109c
