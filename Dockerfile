@@ -4,7 +4,7 @@ ARG             VCS_REF
 ARG             VERSION
 
 # build
-FROM            golang:1.15.8-alpine as builder
+FROM            golang:1.16.0-alpine as builder
 RUN             apk add --no-cache git gcc musl-dev make
 ENV             GO111MODULE=on
 WORKDIR         /go/src/moul.io/grpcbin
@@ -15,7 +15,7 @@ COPY            . ./
 RUN             go build -o /go/bin/grpcbin -ldflags "-extldflags \"-static\"" -v
 
 # minimalist runtime
-FROM alpine:3.12
+FROM alpine:3.13
 LABEL           org.label-schema.build-date=$BUILD_DATE \
                 org.label-schema.name="grpcbin" \
                 org.label-schema.description="" \
