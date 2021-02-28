@@ -8,8 +8,8 @@ require (
 	github.com/rogpeppe/fastuuid v1.1.0 // indirect
 	github.com/smartystreets/assertions v1.0.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4
-	golang.org/x/crypto v0.0.0-20201217014255-9d1352758620
-	golang.org/x/net v0.0.0-20201216054612-986b41b23924
+	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83
+	golang.org/x/net v0.0.0-20210226172049-e18ecbb05110
 	google.golang.org/grpc v1.36.0
 )
 
