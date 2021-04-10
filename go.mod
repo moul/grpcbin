@@ -9,8 +9,8 @@ require (
 	github.com/smartystreets/assertions v1.0.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2
-	golang.org/x/net v0.0.0-20210330075724-22f4162a9025
-	google.golang.org/grpc v1.36.1
+	golang.org/x/net v0.0.0-20210410081132-afb366fc7cd1
+	google.golang.org/grpc v1.37.0
 )
 
 replace github.com/grpc-ecosystem/grpc-gateway => github.com/moul/grpc-gateway v1.9.1-0.20190603230725-390f150e109c
