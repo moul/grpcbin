@@ -10,7 +10,7 @@ require (
 	github.com/smartystreets/goconvey v1.6.4
 	golang.org/x/crypto v0.0.0-20210506145944-38f3c27a63bf
 	golang.org/x/net v0.0.0-20210510120150-4163338589ed
-	google.golang.org/grpc v1.37.1
+	google.golang.org/grpc v1.38.0
 )
 
 replace github.com/grpc-ecosystem/grpc-gateway => github.com/moul/grpc-gateway v1.9.1-0.20190603230725-390f150e109c
