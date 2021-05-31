@@ -49,7 +49,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
       - name: Run GoReleaser (Dry Run)
-        uses: goreleaser/goreleaser-action@v2.5.0
+        uses: goreleaser/goreleaser-action@v2.6.1
         with:
           version: latest
           args: release --rm-dist --snapshot --skip-publish
