@@ -30,7 +30,7 @@ jobs:
       -
         name: Cache Go modules
         if: steps.semantic.outputs.new-release-published == 'true'
-        uses: actions/cache@v2.1.5
+        uses: actions/cache@v2.1.6
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
@@ -39,7 +39,7 @@ jobs:
       -
         name: Run GoReleaser
         if: steps.semantic.outputs.new-release-published == 'true'
-        uses: goreleaser/goreleaser-action@v2.5.0
+        uses: goreleaser/goreleaser-action@v2.6.1
         with:
           version: latest
           args: release --rm-dist
