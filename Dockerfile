@@ -15,7 +15,7 @@ COPY            . ./
 RUN             go build -o /go/bin/grpcbin -ldflags "-extldflags \"-static\"" -v
 
 # minimalist runtime
-FROM alpine:3.13.5
+FROM alpine:3.14.1
 LABEL           org.label-schema.build-date=$BUILD_DATE \
                 org.label-schema.name="grpcbin" \
                 org.label-schema.description="" \
