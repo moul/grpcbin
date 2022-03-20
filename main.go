@@ -101,6 +101,9 @@ var index = `<!DOCTYPE html>
     </ul>
     <h2>About</h2>
     <a href="https://github.com/moul/grpcbin">Developed</a> by <a href="https://manfred.life">Manfred Touron</a>, inspired by <a href="https://httpbin.org/">https://httpbin.org/</a>
+    <!-- 100% privacy friendly analytics -->
+    <script async defer src="https://sa.moul.io/latest.js"></script>
+    <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
   </body>
 </html>
 `
