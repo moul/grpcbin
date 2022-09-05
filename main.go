@@ -182,10 +182,10 @@ func main() {
 			var err error
 			t, err = t.Parse(index)
 			if err != nil {
-				log.Fatalf("failt to parse template: %v", err)
+				log.Fatalf("failed to parse template: %v", err)
 			}
 			mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-				if err2 := t.Execute(w, grpcbinpb.GRPCBin_serviceDesc.Methods); err != nil {
+				if err2 := t.Execute(w, grpcbinpb.GRPCBin_serviceDesc.Methods); err2 != nil {
 					http.Error(w, err2.Error(), http.StatusInternalServerError)
 				}
 			})
