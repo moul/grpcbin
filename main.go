@@ -33,6 +33,7 @@ import (
 var (
 	insecureAddr       = flag.String("insecure-addr", ":9000", "The ip:port combination to listen on for insecure connections")
 	secureAddr         = flag.String("metrics-addr", ":9001", "The ip:port combination to listen on for secure connections")
+	requireClientCert  = flag.Bool("require-client-cert", false, "Require the client to send a certificate in order to accept a new connection")
 	keyFile            = flag.String("tls-key", "cert/server.key", "TLS private key file")
 	certFile           = flag.String("tls-cert", "cert/server.crt", "TLS cert file")
 	inProduction       = flag.Bool("production", false, "Production mode")
@@ -152,13 +153,7 @@ func main() {
 				Cache:      autocert.DirCache(*autocertDir),
 			}
 			httpSrv.TLSConfig = m.TLSConfig()
-			creds = credentials.NewTLS(httpSrv.TLSConfig)
 		} else {
-			var err error
-			creds, err = credentials.NewServerTLSFromFile(*certFile, *keyFile)
-			if err != nil {
-				log.Fatalf("failed to load TLS keys: %v", err)
-			}
 			cert, err := tls.LoadX509KeyPair(*certFile, *keyFile)
 			if err != nil {
 				log.Fatalf("failed to laod TLS keys: %v", err)
@@ -166,7 +161,12 @@ func main() {
 			httpSrv.TLSConfig = &tls.Config{Certificates: []tls.Certificate{cert}}
 		}
 
-		// setup grpc servef
+		if *requireClientCert {
+			httpSrv.TLSConfig.ClientAuth = tls.RequireAnyClientCert
+		}
+		creds = credentials.NewTLS(httpSrv.TLSConfig)
+
+		// setup grpc server
 		s := grpc.NewServer(grpc.Creds(creds))
 		grpcbinpb.RegisterGRPCBinServer(s, &grpcbinhandler.Handler{})
 		hellopb.RegisterHelloServiceServer(s, &hellohandler.Handler{})
@@ -182,10 +182,10 @@ func main() {
 			var err error
 			t, err = t.Parse(index)
 			if err != nil {
-				log.Fatalf("failt to parse template: %v", err)
+				log.Fatalf("failed to parse template: %v", err)
 			}
 			mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-				if err2 := t.Execute(w, grpcbinpb.GRPCBin_serviceDesc.Methods); err != nil {
+				if err2 := t.Execute(w, grpcbinpb.GRPCBin_serviceDesc.Methods); err2 != nil {
 					http.Error(w, err2.Error(), http.StatusInternalServerError)
 				}
 			})
